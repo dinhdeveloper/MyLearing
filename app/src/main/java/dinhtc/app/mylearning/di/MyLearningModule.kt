@@ -8,6 +8,7 @@ import dinhtc.app.mylearning.BuildConfig.DEBUG
 import dinhtc.app.mylearning.common.Constants.BASE_URL
 import dinhtc.app.mylearning.common.Constants.CONNECT_TIMEOUT
 import dinhtc.app.mylearning.common.Constants.READ_TIMEOUT
+import dinhtc.app.mylearning.repository.ApiHelperImpl
 import dinhtc.app.mylearning.service.ApiService
 import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor
@@ -16,7 +17,7 @@ import retrofit2.converter.gson.GsonConverterFactory
 import java.util.concurrent.TimeUnit
 import javax.inject.Singleton
 
-@Module
+@Module(includes = [DependenciesBindings::class])
 @InstallIn(SingletonComponent::class)
 class MyLearningModule {
 
@@ -52,6 +53,9 @@ class MyLearningModule {
         return okHttpClient.build()
     }
 
+    @Provides
+    @Singleton
+    fun apiHelperImpl(apiService : ApiService) = ApiHelperImpl(apiService)
     /*
      context in @Module :
         (@ApplicationContext context: Context)
